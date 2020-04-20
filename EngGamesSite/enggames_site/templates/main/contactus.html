@@ -1,0 +1,21 @@
+{% extends "main/base.html" %}
+
+{% block title %} EG - {{ page.name }} {% endblock %}
+
+{% block content %}
+<div class="content-container">
+	<div><span class="section-title mx-auto" >{{ page.title }}</span></div>
+	<img height="80px" src="static/assets/crest2.png" alt="crest">
+	<p class="content-light"> {{ page.description }} </p>
+
+	<div class="content-wrapper">
+		<div class="content__group lvl0">
+			{% for sauce in socials %}
+				<a href="{{ sauce.link }}" target="_blank">
+					<img class="social__img" src="static/assets/contactus/{{ sauce.imgPath }}" alt="{{ sauce.alt }}">
+				</a>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+{% endblock %}

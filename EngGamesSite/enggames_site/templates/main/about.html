@@ -1,0 +1,26 @@
+{% extends "main/base.html" %}
+
+{% block title %} EG - {{ page.name }} {% endblock %}
+
+{% block content %}
+<div class="content-container">
+	<div><span class="section-title mx-auto" >{{ page.title }}</span></div>
+	<img height="80px" src="static/assets/crest2.png" alt="crest">
+	<p class="content-light">{{ page.description }}</p>
+	<div class="content-wrapper">
+		<div class="content__group">
+			<h1 class="mt-4"> The 3 Pillars </h1>
+			<div class="row" style="margin-top: 20px;">
+				{% for pillar in pillars %}
+					<div class="col">
+						<img src="static/assets/about/{{ pillar.imgPath }}" alt="{{ pillar.name }}">
+						<h3> {{ pillar.name }} </h3>
+						<p class="content-dark">{{ pillar.description }}</p>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

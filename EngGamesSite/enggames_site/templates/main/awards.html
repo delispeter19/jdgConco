@@ -1,0 +1,47 @@
+{% extends "main/base.html" %}
+
+{% block title %} EG - {{ page.name }} {% endblock %}
+
+{% block content %}
+<div class="content-container">
+	<div><span class="section-title mx-auto" >{{ page.title }}</span></div>
+	<img height="80px" src="static/assets/crest2.png" alt="crest">
+    <p class="content-light">{{ page.description }}</p>
+    <div class="content-wrapper">
+        <div class="mt-4 content__group">
+            {% for jdg in jdgs %}
+                <table style="background-color: {{ jdg.bgClr }}; border: 10px ridge {{ jdg.borderClr }};" >
+                    <tr>
+                        <th style="background-color: {{ jdg.bgClr }}; border-bottom: 8px ridge {{ jdg.borderClr }}; border-right: 2px solid {{ jdg.borderClr }};" class="table-title" colspan="2">
+                            <a href="{{ jdg.alt }}" target="_blank">
+                                <img height="100px" src="static/assets/{{ jdg.imgPath }}">
+                            </a>
+                            <span>JDG {{ jdg.year }}</span>
+                        </th>
+                    </tr>
+
+                    <tr>
+                        {% for title in titles %}
+                            <th style="background-color: {{ jdg.bgClr }}; border: 2px solid {{ jdg.borderClr }};">
+                                {{ title }}
+                            </th>
+                        {% endfor %}
+                    </tr>
+
+                    {% for award in jdg.awards %}
+                    <tr>
+                        <td style="background-color: {{ jdg.bgClr }}; border: 2px solid {{ jdg.borderClr }};">
+                            &#12935{{ award.position }} {{ award.name }}
+                        </td>
+                        <td style="background-color: {{ jdg.bgClr }}; border: 2px solid {{ jdg.borderClr }};">
+                            {{ award.description }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+
+                </table>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

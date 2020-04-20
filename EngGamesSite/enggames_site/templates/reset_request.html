@@ -1,0 +1,42 @@
+{% extends "main/base.html" %}
+
+{% block title %} EG - {{ page.name }} {% endblock %}
+
+{% block content %}
+
+{% macro render_field(field) %}
+	{{ field.label(class="form-control-label") }}
+	{% if field.errors %}
+		{{ field(class="form-control form-control-lg is-invalid") }}
+		<div class="invalid-feedback">
+			{% for error in field.errors %}
+				<span>{{ error }}</span>
+			{% endfor %}
+		</div>
+	{% else %}
+		{{ field(class="form-control form-control-lg") }}
+	{% endif %}
+{% endmacro %}
+
+<div class="content-container">
+	<div><span class="section-title mx-auto" >{{ page.title }}</span></div>
+	<img height="80px" src="{{url_for('static', filename='assets/crest2.png')}}" alt="crest">
+	<p class="content-light">Reset Password</p>
+	<div class="content-wrapper">
+		<div style="width: 30%; text-align: left; margin:auto;">
+			<form method="POST" action="{{ url_for('admins.reset_request') }}">
+				{{ form.hidden_tag() }} {# csrf_token #}
+				<fieldset class="form-group">
+					<legend>Reset Password</legend>
+					<div class="form-group">
+						{{ render_field(form.email) }}
+					</div>
+				</fieldset>
+				<div class="form-group">
+					{{ form.submit(class="btn btn-outline-primary") }}
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock %}
