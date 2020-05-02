@@ -1,0 +1,86 @@
+{% extends "main/base.html" %}
+
+{% block title %} EG - {{ page.name }} {% endblock %}
+
+{% block content %}
+
+{% macro render_field(field) %}
+	{{ field.label(class="form-control-label") }}
+	{% if field.errors %}
+		{{ field(class="form-control form-control-lg is-invalid") }}
+		<div class="invalid-feedback">
+			{% for error in field.errors %}
+				<span>{{ error }}</span>
+			{% endfor %}
+		</div>
+	{% else %}
+		{{ field(class="form-control form-control-lg") }}
+	{% endif %}
+{% endmacro %}
+
+{% macro render_errors(field) %}
+	{% if field.errors %}
+		<script type="text/javascript">
+			document.getElementById("{{ field.name }}").classList.add("is-invalid")
+		</script>
+		<div class="invalid-feedback">
+			{% for error in field.errors %}
+				<span>{{ error }}</span>
+			{% endfor %}
+		</div>
+	{% endif %}
+{% endmacro %}
+
+<div class="content-container">
+	<div><span class="section-title mx-auto" >{{ page.title }}</span></div>
+	<img height="80px" src="{{url_for('static', filename='assets/crest2.png')}}" alt="crest">
+	<p class="content-light">{{ page.description }}</p>
+	<div class="content-wrapper">
+		<div style="width: 30%; text-align: left; margin:auto;">
+			<form method="POST" action="{{ url_for('events.edit_event', id=event.id) }}" enctype="multipart/form-data">
+				{{ form.hidden_tag() }} {# csrf_token #}
+				<fieldset class="form-group">
+					<legend>Edit <strong>{{ event.title}}</strong></legend>
+					<div class="form-group">
+						{{ render_field(form.title) }}
+					</div>
+					<div class="form-group">
+						{{ form.date.label(class="form-control-label") }}
+						{{ form.date(id="date", onkeyup="validateEvent()", class="form-control form-control-lg") }}
+						<div class="invalid-feedback" style="display:block;"><span id="{{form.date.name}}Feedback"></span></div>
+						{{ render_errors(form.date) }}
+					</div>
+					<div class="form-group">
+						{{ form.fb_link.label(class="form-control-label") }}
+						{{ form.fb_link(id="fb_link", onkeyup="validateEvent()", class="form-control form-control-lg") }}
+						<div class="invalid-feedback" style="display:block;"><span id="{{form.fb_link.name}}Feedback"></span></div>
+						{{ render_errors(form.fb_link) }}
+					</div>
+                    <div class="form-group">
+						{{ form.imgFile.label() }}
+						{{ form.imgFile(class="form-control-file") }}
+						{% if form.imgFile.errors %}
+							{% for error in form.imgFile.errors %}
+								<span class="text-danger">{{ error }}</span><br>
+							{% endfor %}
+						{% endif %}
+					</div>
+					<div class="form-group">
+						{{ render_field(form.description) }}
+					</div>
+				</fieldset>
+				<div class="form-group">
+					<input class="btn btn-outline-success" id="submit" name="submit" style="float:left;" type="submit" value="Submit">
+					<a class="btn btn-outline-danger ml-3" href="{{ url_for('main.events') }}">Cancel</a>
+				</div>
+				<small class="text-muted">
+					<span>Last Edit by: {{ event.author.username }} @ {{ event.last_updated.strftime('%Y-%m-%d') }}</span>
+				</small>
+			</form>
+		</div>
+
+
+	</div>
+</div>
+<script type="text/javascript" src="{{ url_for('static', filename='javascript/validate.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends "main/base.html" %}
+
+{% block title %} EG - {{ page.name }} {% endblock %}
+
+{% block content %}
+
+<div class="content-container">
+	<div><span class="section-title mx-auto" >{{ page.title }}</span></div>
+	<img height="80px" src="static/assets/crest2.png" alt="crest">
+	<p class="content-light">{{ page.description }}</p>
+	<div class="content-wrapper">
+		{% for section in sections %}
+			<h2 class="mt-5 mb-4 display-4">{{ section.title }}</h2>
+
+			<div class="mach-img-div" style="{% if section.id%2 == 0 %}margin-left: 50px; float: right;{% else %}margin-right: 50px; float: left;{% endif %}">
+				{% for img in section.images %}
+				<img class="mach-img section-{{ section.id }} {{ img.current }}" src="static/assets/machine/{{ img.imgPath }}" alt="{{ img.alt }}">
+				{% endfor %}
+			</div>
+			<span class="article">
+				<p class="lead">
+					<font style="vertical-align: inherit;">
+						{% for line in section.text[0:3] %}
+							<font style="vertical-align: inherit;">
+								{{ line.sentence }}
+							</font>
+						{% endfor %}
+					</font>
+				</p>
+				<p class="lead">
+					<font style="vertical-align: inherit;">
+						{% for line in section.text[3:5] %}
+							<font style="vertical-align: inherit;">
+								{{ line.sentence }}
+							</font>
+						{% endfor %}
+					</font>
+				</p>
+				<p class="lead">
+					<font style="vertical-align: inherit;">
+						{% for line in section.text[5:] %}
+							<font style="vertical-align: inherit;">
+								{{ line.sentence }}
+							</font>
+						{% endfor %}
+					</font>
+				</p>
+			</span>
+			<hr>
+		{% endfor %}
+	</div>
+
+<script src="{{ url_for('static', filename='javascript/slide.js') }}"></script>
+
+</div>
+{% endblock %}

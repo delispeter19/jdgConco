@@ -1,0 +1,27 @@
+{% extends "main/base.html" %}
+
+{% block title %} EG - {{ page.name }} {% endblock %}
+
+{% block content %}
+<div class="content-container">
+	<div><span class="section-title mx-auto" >{{ page.title }}</span></div>
+	<img height="80px" src="static/assets/crest2.png" alt="crest">
+	<p class="content-light"> {{ page.description }} </p>
+	<div class="content-wrapper">
+		<div class="mt-5 content__group">
+		{% for exec in execs %}
+		<div class="contentExec">
+			<img class="exec center" id="{{ exec.position }}" src="static/assets/execs/{{ exec.imgPath }}" alt="{{ exec.position }}">
+			<div class="hoverInfo">
+				<p class="center" >
+					{{ exec.firstname }} {{ exec.lastname }} <br> <strong>{{ exec.position }}</strong><br>
+					<a href="mailto:{{ exec.email }}">&#x1F4E7</a>
+				</p>
+			</div>
+		</div>
+		{% endfor %}
+		</div>
+
+	</div>
+</div>
+{% endblock %}

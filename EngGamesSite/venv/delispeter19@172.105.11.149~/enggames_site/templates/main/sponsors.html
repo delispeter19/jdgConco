@@ -1,0 +1,24 @@
+{% extends "main/base.html" %}
+
+{% block title %} EG - {{ page.name }} {% endblock %}
+
+{% block content %}
+<div class="container" style="text-align: center; margin-top: 30px;" >
+		<div><span class="section-title mx-auto" >{{ page.title }}</span></div>
+		<img height="80px" src="static/assets/crest2.png" alt="crest">
+		<p class="content-light"> {{ page.description }} </p>
+		<div class="sponsor-wrapper pb-4">
+			{% for tier in tiers %}
+				<div class="container px-5">
+					<div class="content__group lvl{{ tier.level }}">
+						{% for sponsor in tier.sponsors %}
+							<a href="{{ sponsor.link }}" target="_blank">
+								<img class="sponsor__img" src="static/assets/sponsors/{{ sponsor.imgPath }}" alt="{{ sponsor.alt }}">
+							</a>
+						{% endfor %}
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+</div>
+{% endblock %}

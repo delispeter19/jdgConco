@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% block head %}
+        <meta charset="UTF-8">
+        <title>
+            {% block title %} Home {% endblock %}
+        </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/base.css') }}">
+        {% endblock %}
+    </head>
+
+    <body>
+<!-- BANNER -->
+        <div class="container-fluid text-center">
+          <img class="img-fluid"9 src="{{ url_for('static', filename='assets/newBanner2.png') }}" height="100px" alt="Banner">
+        </div>
+<!-- NAVBAR -->
+        <nav class="navbar navbar-expand-sm navbar-dark bg-dark rounded">
+            {% block navbar %}
+            <div class="navbar-header">
+                <a class="nav-link" href="{{ url_for('main.home') }}">
+                    <img src="{{ url_for('static', filename='assets/EGConcoLogo.png') }}" height="50px" alt="Logo">
+                </a>
+            </div>
+            <!-- That three line side button when it gets really zoomed in -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.home') }}">Home</a>
+                    </li>
+                    {% for page in pages %}
+                    <li class="nav-item">
+                        {% if page.name != 'Login' and page.name != 'Home' %}
+                            <a class="nav-link" href="{{ url_for('main.'+page.endpoint[1:]) }}"> {{ page.name }} </a>
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
+                <div class="mr-3">
+                    {% for category, message in get_flashed_messages(with_categories=true) %}
+                        <div class="alert alert-{{ category }}" style="margin-bottom: -0.2rem;padding: 10px 15px;">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+                {% if current_user.is_authenticated %}
+                    <a class="btn btn-outline-warning mr-3" href="{{ url_for('admins.logout') }}"> Logout </a>
+                {% else %}
+                    <a class="btn btn-outline-primary mr-3" href="{{ url_for('admins.login') }}"> Login </a>
+                {% endif %}
+            </div>
+            {% endblock %}
+        </nav>
+<!-- CONTENT -->
+
+        {% block content %}
+        <div class="content-container">
+            <div><span class="section-title mx-auto" >{{ page.title }}</span></div>
+            <img height="80px" src="static/assets/crest2.png" alt="crest">
+            <p class="content-light">{{ page.description }}</p>
+            <div class="content-wrapper">
+                <h2 class="mt-5 mb-4 display-4"> Eng Games Concordia!</h2>
+
+                <div class="mach-img-div" style="margin-right: 50px; float: left;">
+                    <img class="mach-img" style="opacity: 1;" src="static/assets/img1.jpg" alt="delegation">
+                </div>
+                <span class="article">
+                    <p class="lead">
+                        <font style="vertical-align: inherit;">
+                            <font style="vertical-align: inherit;">
+                                For 30 years now, the Quebec Engineering Games have represented the largest engineering competition in Quebec and the largest gathering of engineering students in the province.
+                            </font>
+                        </font>
+                    </p>
+                    <p class="lead">
+                        <font style="vertical-align: inherit;">
+                            <font style="vertical-align: inherit;">
+                                The participants, coming from 12 universities in Quebec and Ontario, put their general and specific skills to the test, complementary to those of the engineering profession by competing in challenges of various kinds. For the thirtieth edition, the event will take place from January 3 to 7, 2020 at the École de technologie supérieure in Montreal.
+                            </font>
+                        </font>
+                    </p>
+                    <p class="lead">
+                        <font style="vertical-align: inherit;">
+                            <font style="vertical-align: inherit;">
+                                Concordia send its delegation to proudly represent the school!
+                            </font>
+                        </font>
+                    </p>
+                    <p class="lead">
+                        <font style="vertical-align: inherit;">
+                            <font style="vertical-align: inherit;">
+                                Have a look around our site to see what we are all about!
+                            </font>
+                        </font>
+                    </p>
+                </span>
+                <hr>
+            </div>
+        </div>
+        {% endblock %}
+<!-- FOOTER FOR BASE -->
+       <div class="footer-container">
+           <div class="footer-wrapper" style="height: inherit;">
+               <div>
+					<div class="footer__group dele">
+                        {% for dele in delegations %}
+                            <a href="{{ dele.link }}" target="_blank">
+                                <img class="dele__img" src="{{ url_for('static', filename='assets/delegations/' + dele.imgPath) }}" alt="{{dele.path}}">
+                            </a>
+                        {% endfor %}
+					</div>
+				</div>
+           </div>
+       </div>
+    </body>
+</html>
